@@ -110,8 +110,15 @@ anims/animacion = SubResource( 4 )
 
 [node name="patricia" parent="." instance=ExtResource( 4 )]
 position = Vector2( -396, 274 )
+es_robot = false
 
 [node name="Camera2D" type="Camera2D" parent="patricia"]
 position = Vector2( 10, -256 )
 current = true
 smoothing_enabled = true
+
+[node name="alto_camino" type="Position2D" parent="."]
+position = Vector2( 241, 193 )
+
+[node name="bajo_camino" type="Position2D" parent="."]
+position = Vector2( 245, 456 )

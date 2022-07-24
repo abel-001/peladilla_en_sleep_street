@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://personajes/patricia/walking-patricia_bis.png" type="Texture" id=1]
 [ext_resource path="res://personajes/patricia/walking-patricia.png" type="Texture" id=2]
@@ -318,6 +318,30 @@ tracks/3/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Walking-patricia-spritesheet:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Idle-patricia-spritesheet:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "walking"
@@ -506,6 +530,9 @@ tracks/1/keys = {
 radius = 19.0
 height = 182.0
 
+[sub_resource type="CircleShape2D" id=8]
+radius = 19.0263
+
 [node name="patricia" type="KinematicBody2D"]
 script = ExtResource( 3 )
 
@@ -557,3 +584,12 @@ anims/walking_old = SubResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1, -108 )
 shape = SubResource( 4 )
+
+[node name="guantada" type="Area2D" parent="."]
+position = Vector2( 66, -213 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="guantada"]
+shape = SubResource( 8 )
