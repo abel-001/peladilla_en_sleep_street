@@ -8,9 +8,10 @@ extends KinematicBody2D
 signal muerte()
 
 export var velocidad=200
-export var vida=100
+export var vida=100.0
+export var maxvida=100.0
+export var potencia=30.0
 
-export var potencia=30
 
 var muriendo=false
 
@@ -19,6 +20,8 @@ var escalalado_rango=20
 var lejos
 var cerca
 var en_rango=null
+var en_rango_lista=[]
+
 export var es_robot=true
 var recibiendo=false
 
@@ -27,7 +30,7 @@ var zasca=false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimationPlayer.play("idle",-1,2)
-	
+	$AnimationPlayer.advance(randf())
 	
 	
 	#lejos=get_node("../alto_camino")
@@ -70,9 +73,9 @@ func _physics_process(delta):
 					elif Input.is_action_pressed("ui_left"):
 						velocidad_x=-velocidad
 						movido=true
-						print("-> "+str(scale.x))
-						#if scale.x>0:
-						#	scale.x=-scale.x
+#						print("-> "+str(scale.x))
+#						if global_scale.x>0:
+#							global_scale.x=-global_scale.x
 						#	print(scale.x)
 			else:
 				if $AnimationPlayer.is_playing():
@@ -87,13 +90,17 @@ func _physics_process(delta):
 			if velocidad_x<0:
 				reverse=true
 				factor=-1
-			$AnimationPlayer.play("walking",-1,4)	
+			
+			$AnimationPlayer.play("walking",-1,factor*4,reverse)	
 		else:
 			if ($AnimationPlayer.current_animation=="muriendo" or $AnimationPlayer.current_animation=="pickup" or $AnimationPlayer.current_animation=="receiving" or $AnimationPlayer.current_animation=="slapping") and $AnimationPlayer.is_playing():
 				pass		
 			else:
-				$AnimationPlayer.play("idle")
-				
+				if $AnimationPlayer.is_playing() and $AnimationPlayer.current_animation=="idle":
+					pass
+				else:
+					$AnimationPlayer.play("idle")
+					$AnimationPlayer.advance(randf())
 		
 	# Tamaño del sprite, según su distanica a alto y bajo_camino
 	#var distancia=lejos.position.y-position.y	
@@ -108,10 +115,10 @@ func dolor():
 	recibiendo=true
 	vida=vida-potencia
 	
-	$barra_de_vida.actualizar_vida(vida)
+	$barra_de_vida.actualizar_vida(vida/maxvida)
 	if vida<=0:
 		muriendo=true
-		$AnimationPlayer.play("dying")
+		$AnimationPlayer.play("dying",-1,2)
 		$dormir.visible=true 
 		emit_signal("muerte")
 		
@@ -119,25 +126,33 @@ func dolor():
 
 func _on_guantada_body_entered(body):
 	en_rango=body  # cambiar a colección!!!!!
+	en_rango_lista.append(body)
+	
 
 func _zasca_on():
 	zasca=true
 	if en_rango ==null:
 		pass
 	else:
-		en_rango.pegar(self)
-
+		for personaje in en_rango_lista:
+			if personaje.is_in_group("personaje"):
+				personaje.pegar(self)	
+					
+#			if en_rango.is_in_group("personaje"):
+#				en_rango.pegar(self)
+	
 func _zasca_off():
 	zasca=false
 
-
 func _on_guantada_body_exited(body):
 	en_rango=null #Mejor quitarlo de una lista!!!!
-
+	en_rango_lista.erase(body)
 
 func _on_guantada_area_entered(area):
-	var body=area.get_parent()
-	_on_guantada_body_entered(body)
+	# Puede que sean áreas de otro tipo: fin de escenario, área de guantazo del enemigo...
+	if area.is_in_group("sensible"):
+		var body=area.get_parent()
+		_on_guantada_body_entered(body)
 	
 
 

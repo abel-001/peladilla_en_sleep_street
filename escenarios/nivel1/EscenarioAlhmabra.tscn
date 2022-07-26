@@ -83,9 +83,11 @@ tracks/0/keys = {
 "values": [ Vector2( 4547, -247 ), Vector2( 3691, -70 ), Vector2( 2898, -310 ), Vector2( 1944, -358 ) ]
 }
 
-[sub_resource type="DynamicFont" id=7]
-size = 50
-outline_size = 2
+[sub_resource type="DynamicFont" id=8]
+size = 43
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
 font_data = ExtResource( 18 )
 
 [sub_resource type="RectangleShape2D" id=5]
@@ -247,16 +249,23 @@ scale = Vector2( 2, 2 )
 current = true
 drag_margin_h_enabled = true
 
-[node name="fin" type="Label" parent="YSort/mustaf/Camera2D"]
-visible = false
-margin_left = -54.0
-margin_top = -138.667
-margin_right = 798.0
-margin_bottom = 187.333
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
-custom_fonts/font = SubResource( 7 )
-text = "Y el mundo vuelve a dormir...."
+[node name="gui" type="Control" parent="YSort/mustaf/Camera2D"]
+margin_left = -343.0
+margin_top = -199.0
+margin_right = 335.0
+margin_bottom = 201.0
+
+[node name="Timer" type="Timer" parent="YSort/mustaf/Camera2D/gui"]
+
+[node name="fin" type="Label" parent="YSort/mustaf/Camera2D/gui"]
+margin_top = 11.0
+margin_right = 686.0
+margin_bottom = 268.0
+custom_fonts/font = SubResource( 8 )
+text = "¡Gracias!
+¡Todos/as dormidos/as al fin!"
+align = 1
+valign = 1
 
 [node name="mustaf2" parent="YSort" instance=ExtResource( 9 )]
 modulate = Color( 0, 1, 0.929412, 0.670588 )
@@ -417,7 +426,7 @@ __meta__ = {
 }
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
-position = Vector2( 5728, -1159 )
+position = Vector2( 4853, -1169 )
 rotation = 1.5708
 __meta__ = {
 "_edit_group_": true
@@ -433,3 +442,5 @@ shape = SubResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
+
+[connection signal="timeout" from="YSort/mustaf/Camera2D/gui/Timer" to="." method="_on_Timer_timeout"]
