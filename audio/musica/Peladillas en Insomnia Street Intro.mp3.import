@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Peladillas en Insomnia Street Intro.mp3-1a0768852d932a6d142b2afd390132eb.mp3str"
+
+[deps]
+
+source_file="res://audio/musica/Peladillas en Insomnia Street Intro.mp3"
+dest_files=[ "res://.import/Peladillas en Insomnia Street Intro.mp3-1a0768852d932a6d142b2afd390132eb.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
