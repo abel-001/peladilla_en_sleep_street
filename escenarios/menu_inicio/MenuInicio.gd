@@ -26,3 +26,7 @@ func _on_ButtonCreditos_pressed():
 
 func _on_ButtonSalir_pressed():
 	get_tree().quit()
+
+
+func _on_ButtonEmpezar2_pressed():
+	get_tree().change_scene("res://escenarios/instrucciones/instrucciones.tscn")

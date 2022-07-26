@@ -38,8 +38,9 @@ func muerte():
 		
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().change_scene("res://escenarios/menu_creditos/dummy2.tscn")
 
 
 func _on_Timer_timeout():

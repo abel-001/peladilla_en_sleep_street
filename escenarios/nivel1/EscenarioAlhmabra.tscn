@@ -258,6 +258,7 @@ margin_bottom = 201.0
 [node name="Timer" type="Timer" parent="YSort/mustaf/Camera2D/gui"]
 
 [node name="fin" type="Label" parent="YSort/mustaf/Camera2D/gui"]
+visible = false
 margin_top = 11.0
 margin_right = 686.0
 margin_bottom = 268.0

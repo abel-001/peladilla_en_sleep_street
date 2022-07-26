@@ -26,6 +26,7 @@ export var es_robot=true
 var recibiendo=false
 
 var zasca=false
+var derecha=true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -67,16 +68,26 @@ func _physics_process(delta):
 						movido=true
 						
 					if Input.is_action_pressed("ui_right"):
+
 						velocidad_x=velocidad
 						movido=true
-						scale.x=abs(scale.x)
+						
+						if Input.is_action_just_pressed("ui_right") and derecha==false:
+							global_scale.x=-abs(global_scale.y)
+							# scale.x=abs(scale.x)
+						derecha=true
+						
 					elif Input.is_action_pressed("ui_left"):
+						
 						velocidad_x=-velocidad
 						movido=true
 #						print("-> "+str(scale.x))
-#						if global_scale.x>0:
-#							global_scale.x=-global_scale.x
-						#	print(scale.x)
+#						
+						if Input.is_action_just_pressed("ui_left") and derecha==true:
+							global_scale.x=-abs(global_scale.y)
+							print(global_scale.x)
+						
+						derecha=false
 			else:
 				if $AnimationPlayer.is_playing():
 					pass
@@ -87,9 +98,11 @@ func _physics_process(delta):
 			move_and_slide(Vector2(velocidad_x,velocidad_y),Vector2(0,1))
 			var reverse=false
 			var factor=1
-			if velocidad_x<0:
-				reverse=true
-				factor=-1
+
+# Ya no hacen falta: ya rota...
+#			if velocidad_x<0:
+#				reverse=true
+#				factor=-1
 			
 			$AnimationPlayer.play("walking",-1,factor*4,reverse)	
 		else:

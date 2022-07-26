@@ -27,12 +27,22 @@ stream = ExtResource( 5 )
 stream = ExtResource( 5 )
 
 [node name="ButtonEmpezar" type="Button" parent="."]
-margin_left = 374.0
-margin_top = 423.0
-margin_right = 647.0
-margin_bottom = 486.0
+margin_left = 370.0
+margin_top = 419.0
+margin_right = 643.0
+margin_bottom = 482.0
+rect_pivot_offset = Vector2( 226, 42 )
 custom_fonts/font = SubResource( 1 )
 text = "EMpezar"
+
+[node name="ButtonEmpezar2" type="Button" parent="."]
+margin_left = 662.0
+margin_top = 519.0
+margin_right = 863.0
+margin_bottom = 582.0
+rect_pivot_offset = Vector2( 226, 42 )
+custom_fonts/font = SubResource( 1 )
+text = "Instrucciones"
 
 [node name="ButtonCreditos" type="Button" parent="."]
 margin_left = 370.0
@@ -51,5 +61,6 @@ custom_fonts/font = SubResource( 1 )
 text = "Salir"
 
 [connection signal="pressed" from="ButtonEmpezar" to="." method="_on_ButtonEmpezar_pressed"]
+[connection signal="pressed" from="ButtonEmpezar2" to="." method="_on_ButtonEmpezar2_pressed"]
 [connection signal="pressed" from="ButtonCreditos" to="." method="_on_ButtonCreditos_pressed"]
 [connection signal="pressed" from="ButtonSalir" to="." method="_on_ButtonSalir_pressed"]
