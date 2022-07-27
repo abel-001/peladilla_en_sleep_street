@@ -24,9 +24,11 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Programación: Juanjo Ramos e Ice Peppers
-Gráficos: Trisha Hale y Mustaf Mustafa
+Gráficos: Trisha Hale, Mustaf Mustafa
+Fondo base: \"pencil parker\" en Pixabay
+Actor: Mustaf Mustafa
 Música: Gori Fater
-Fuentes: Mountains of Christmas (Google fonts)"
+Fuente: Mountains of Christmas (Google fonts)"
 
 [node name="Button" type="Button" parent="."]
 margin_left = 829.0

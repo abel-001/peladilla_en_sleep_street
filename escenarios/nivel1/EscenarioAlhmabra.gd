@@ -18,6 +18,8 @@ func _ready():
 			mustafs=mustafs+1
 
 			objeto.connect("muerte", self, "muerte")
+			objeto.connect("recoge_peladilla", self, "recoge_peladilla")
+			
 	mustafs=mustafs-1 # Quitar al protagonista.
 	
 
@@ -25,17 +27,21 @@ func _ready():
 	#Contamos cuántos personajes hay!
 	#mustafs=(len(get_tree().get_nodes_in_group("personaje")))-1
 
-func muerte():
+func muerte(quien):
 	mustafs=mustafs-1
 	
 	print("Ouch!! ("+str(mustafs)+")")
 	
-	if mustafs<=0:
-		print("****************terminado")
-		$YSort/mustaf/Camera2D/gui/Timer.start(5)
-		$YSort/mustaf/Camera2D/gui/fin.visible=true
+	if quien.es_robot:
+	
+		if mustafs<=0:
+			print("****************terminado")
+			$Camera2D/gui/Timer.start(5)
+			$Camera2D/gui/fin.visible=true
 		
-		
+	else:
+			$Camera2D/gui/Timer.start(5)
+			$Camera2D/gui/perdiste.visible=true				
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -45,3 +51,6 @@ func _process(delta):
 
 func _on_Timer_timeout():
 	get_tree().change_scene("res://escenarios/menu_creditos/dummy2.tscn")
+
+func recoge_peladilla():
+	$Camera2D/gui.recoger_peladilla()

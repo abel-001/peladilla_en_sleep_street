@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://personajes/patricia_old/patricia.gd" type="Script" id=1]
 [ext_resource path="res://personajes/mustaf/spritesheet-golpe-2-mustaf-unscreen.png" type="Texture" id=2]
@@ -567,6 +567,20 @@ tracks/8/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/9/type = "method"
+tracks/9/path = NodePath(".")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 3.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "recoger"
+} ]
+}
 
 [sub_resource type="Animation" id=16]
 resource_name = "receiving"
@@ -1086,6 +1100,9 @@ radius = 50.04
 radius = 34.0
 height = 118.0
 
+[sub_resource type="CircleShape2D" id=20]
+radius = 33.6155
+
 [node name="mustaf" type="KinematicBody2D" groups=["personaje"]]
 script = ExtResource( 1 )
 
@@ -1152,7 +1169,6 @@ anims/walking = SubResource( 11 )
 anims/walking2 = SubResource( 15 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 1, -11 )
 rotation = 1.5708
 shape = SubResource( 4 )
@@ -1188,7 +1204,18 @@ scale = Vector2( 0.3, 0.4 )
 visible = false
 position = Vector2( 80, -183 )
 
+[node name="recogedor" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="recogedor"]
+position = Vector2( 79, -11 )
+shape = SubResource( 20 )
+__meta__ = {
+"_edit_group_": true
+}
+
 [connection signal="area_entered" from="guantada" to="." method="_on_guantada_area_entered"]
 [connection signal="area_exited" from="guantada" to="." method="_on_guantada_area_exited"]
 [connection signal="body_entered" from="guantada" to="." method="_on_guantada_body_entered"]
 [connection signal="body_exited" from="guantada" to="." method="_on_guantada_body_exited"]
+[connection signal="area_entered" from="recogedor" to="." method="_on_recogedor_area_entered"]
+[connection signal="area_exited" from="recogedor" to="." method="_on_recogedor_area_exited"]

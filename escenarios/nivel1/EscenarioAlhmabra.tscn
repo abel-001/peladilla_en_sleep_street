@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://escenarios/nivel1/nave2.png" type="Texture" id=1]
 [ext_resource path="res://audio/musica/Musica.gd" type="Script" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://escenarios/nivel1/houses.png" type="Texture" id=16]
 [ext_resource path="res://escenarios/nivel1/Peladilla.tscn" type="PackedScene" id=17]
 [ext_resource path="res://gui/fuentes/MountainsofChristmas-Bold.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://escenarios/nivel1/gui.gd" type="Script" id=19]
+[ext_resource path="res://escenarios/nivel1/peladilla.png" type="Texture" id=20]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -83,18 +85,18 @@ tracks/0/keys = {
 "values": [ Vector2( 4547, -247 ), Vector2( 3691, -70 ), Vector2( 2898, -310 ), Vector2( 1944, -358 ) ]
 }
 
-[sub_resource type="DynamicFont" id=8]
-size = 43
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 18 )
-
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3118, 23 )
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 3172.5, 15 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 74
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 18 )
 
 [node name="Escenario" type="Node2D"]
 script = ExtResource( 15 )
@@ -110,6 +112,13 @@ position = Vector2( 628, -399 )
 rotation = -3.14159
 scale = Vector2( 3.565, -1.196 )
 texture = ExtResource( 8 )
+
+[node name="MontañAColor6" type="Sprite" parent="."]
+position = Vector2( -2192.9, -286.877 )
+rotation = -3.14159
+scale = Vector2( 3.4949, -3.23209 )
+texture = ExtResource( 8 )
+flip_h = true
 
 [node name="MontañAColor4" type="Sprite" parent="."]
 position = Vector2( -405, -506 )
@@ -243,30 +252,11 @@ position = Vector2( -631, 262 )
 scale = Vector2( 0.75, 0.75 )
 es_robot = false
 
-[node name="Camera2D" type="Camera2D" parent="YSort/mustaf"]
-position = Vector2( 456, -304 )
-scale = Vector2( 2, 2 )
-current = true
-drag_margin_h_enabled = true
-
-[node name="gui" type="Control" parent="YSort/mustaf/Camera2D"]
-margin_left = -343.0
-margin_top = -199.0
-margin_right = 335.0
-margin_bottom = 201.0
-
-[node name="Timer" type="Timer" parent="YSort/mustaf/Camera2D/gui"]
-
-[node name="fin" type="Label" parent="YSort/mustaf/Camera2D/gui"]
-visible = false
-margin_top = 11.0
-margin_right = 686.0
-margin_bottom = 268.0
-custom_fonts/font = SubResource( 8 )
-text = "¡Gracias!
-¡Todos/as dormidos/as al fin!"
-align = 1
-valign = 1
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/mustaf"]
+position = Vector2( 0, -280 )
+remote_path = NodePath("../../../Camera2D")
+update_rotation = false
+update_scale = false
 
 [node name="mustaf2" parent="YSort" instance=ExtResource( 9 )]
 modulate = Color( 0, 1, 0.929412, 0.670588 )
@@ -444,4 +434,76 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[connection signal="timeout" from="YSort/mustaf/Camera2D/gui/Timer" to="." method="_on_Timer_timeout"]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( -631, 52 )
+scale = Vector2( 0.75, 0.75 )
+current = true
+drag_margin_h_enabled = true
+
+[node name="gui" type="Control" parent="Camera2D"]
+margin_left = -343.0
+margin_top = -199.0
+margin_right = 335.0
+margin_bottom = 201.0
+script = ExtResource( 19 )
+
+[node name="Timer" type="Timer" parent="Camera2D/gui"]
+
+[node name="fin" type="Label" parent="Camera2D/gui"]
+visible = false
+margin_top = -125.0
+margin_right = 720.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 8 )
+text = "¡Gracias!
+¡Todos/as dormidos/as al fin!"
+align = 1
+valign = 1
+
+[node name="perdiste" type="Label" parent="Camera2D/gui"]
+visible = false
+margin_top = -125.0
+margin_right = 720.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 8 )
+text = "Bueno, parece que te toca
+dormir a ti, viajero/a del
+futuro...."
+align = 1
+valign = 1
+
+[node name="peladillas" type="Node2D" parent="Camera2D/gui"]
+position = Vector2( 1184.33, 129.667 )
+scale = Vector2( 1.33333, 1.33333 )
+
+[node name="Peladilla" type="Sprite" parent="Camera2D/gui/peladillas"]
+visible = false
+position = Vector2( -1073, -188 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 20 )
+
+[node name="Peladilla2" type="Sprite" parent="Camera2D/gui/peladillas"]
+visible = false
+position = Vector2( -1013, -188 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 20 )
+
+[node name="Peladilla3" type="Sprite" parent="Camera2D/gui/peladillas"]
+visible = false
+position = Vector2( -954, -188 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 20 )
+
+[node name="Peladilla4" type="Sprite" parent="Camera2D/gui/peladillas"]
+visible = false
+position = Vector2( -895, -188 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 20 )
+
+[node name="Peladilla5" type="Sprite" parent="Camera2D/gui/peladillas"]
+visible = false
+position = Vector2( -838, -188 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 20 )
+
+[connection signal="timeout" from="Camera2D/gui/Timer" to="." method="_on_Timer_timeout"]

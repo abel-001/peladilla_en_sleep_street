@@ -5,7 +5,8 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 
-signal muerte()
+signal muerte(quien)
+signal recoge_peladilla()
 
 export var velocidad=200
 export var vida=100.0
@@ -27,6 +28,8 @@ var recibiendo=false
 
 var zasca=false
 var derecha=true
+
+var peladilla=null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -59,6 +62,7 @@ func _physics_process(delta):
 					guantazo=true
 				elif Input.is_action_pressed("coger"):
 					$AnimationPlayer.play("pickup",-1,4)
+					
 				else:
 					if Input.is_action_pressed("ui_up"):
 						velocidad_y=-velocidad
@@ -119,6 +123,13 @@ func _physics_process(delta):
 	#var distancia=lejos.position.y-position.y	
 	# scale=Vector2(distancia/escalalado_rango,distancia/escalalado_rango)
 
+func recoger():
+	if peladilla:
+		vida=vida+peladilla.valor
+		peladilla.destruir()
+		peladilla=null
+		emit_signal("recoge_peladilla")
+
 func pegar(quien):
 	print(quien.name+" ha pegado a "+name)
 	dolor()
@@ -133,7 +144,7 @@ func dolor():
 		muriendo=true
 		$AnimationPlayer.play("dying",-1,2)
 		$dormir.visible=true 
-		emit_signal("muerte")
+		emit_signal("muerte",self)
 		
 	print("Recibiendo!")
 
@@ -141,6 +152,10 @@ func _on_guantada_body_entered(body):
 	en_rango=body  # cambiar a colección!!!!!
 	en_rango_lista.append(body)
 	
+	# para que se defienda el robot:
+	if es_robot and not muriendo:
+		if rand_range(0,100)>70:
+			$AnimationPlayer.play("slapping",-1,4)
 
 func _zasca_on():
 	zasca=true
@@ -172,3 +187,12 @@ func _on_guantada_area_entered(area):
 func _on_guantada_area_exited(area):
 	var body=area.get_parent()
 	_on_guantada_body_exited(body)
+
+
+func _on_recogedor_area_entered(area):
+	if area.is_in_group("bonus"):
+		peladilla=area
+
+
+func _on_recogedor_area_exited(area):
+	peladilla=null

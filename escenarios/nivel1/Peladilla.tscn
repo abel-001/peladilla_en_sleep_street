@@ -7,7 +7,7 @@
 radius = 65.0
 height = 72.0
 
-[node name="Peladilla" type="Area2D" groups=["peladilla"]]
+[node name="Peladilla" type="Area2D" groups=["bonus", "peladilla"]]
 script = ExtResource( 1 )
 
 [node name="Peladilla" type="Sprite" parent="."]

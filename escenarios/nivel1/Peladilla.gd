@@ -7,6 +7,8 @@ extends Area2D
 
 signal peladilla
 
+export var valor=20
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -19,3 +21,6 @@ func _ready():
 
 func _on_Peladilla_peladilla():
 	emit_signal("peladilla")
+
+func destruir():
+	queue_free()
