@@ -31,6 +31,13 @@ var derecha=true
 
 var peladilla=null
 
+enum Direction {DIRECTION_LEFT, DIRECTION_RIGHT}
+var direccion=Direction.DIRECTION_RIGHT
+enum State {STATE_IDLE, STATE_WALKING, STATE_DYING, STATE_HITTING, STATE_RECEIVING, STATE_PICKING}
+var state=State.STATE_IDLE
+enum Action {IDLE, WALKING, DYING, HITTING, RECEIVING, PICKING}
+var action=Action.IDLE
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimationPlayer.play("idle",-1,2)
@@ -52,72 +59,51 @@ func _physics_process(delta):
 	var guantazo=false
 	
 	var movido=false
-	
-	if not muriendo:
-		if not es_robot:
 
-			if not recibiendo:
-				if Input.is_action_pressed("slap"):
+	
+	match state:
+		State.STATE_IDLE, State.STATE_WALKING:	
+			action=Action.IDLE
+
+			if Input.is_action_pressed("slap"):
 					$AnimationPlayer.play("slapping",-1,4)
-					guantazo=true
-				elif Input.is_action_pressed("coger"):
+					state=State.STATE_HITTING
+					action=Action.HITTING
+			elif Input.is_action_pressed("coger"):
 					$AnimationPlayer.play("pickup",-1,4)
-					
-				else:
-					if Input.is_action_pressed("ui_up"):
+					state=State.STATE_PICKING
+					action=Action.PICKING
+			if Input.is_action_pressed("ui_up"):
 						velocidad_y=-velocidad
 						movido=true
-					elif Input.is_action_pressed("ui_down"):
+			elif Input.is_action_pressed("ui_down"):
 						velocidad_y=velocidad	
 						movido=true
-						
-					if Input.is_action_pressed("ui_right"):
-
+			if Input.is_action_pressed("ui_right"):
+						if direccion==Direction.DIRECTION_LEFT:
+							global_scale.x=-global_scale.x
+						direccion=Direction.DIRECTION_RIGHT			
 						velocidad_x=velocidad
 						movido=true
-						
-						if Input.is_action_just_pressed("ui_right") and derecha==false:
-							global_scale.x=-abs(global_scale.y)
-							# scale.x=abs(scale.x)
-						derecha=true
-						
-					elif Input.is_action_pressed("ui_left"):
-						
+			elif Input.is_action_pressed("ui_left"):
+						if direccion==Direction.DIRECTION_RIGHT:
+							global_scale.x=-global_scale.x
+						direccion=Direction.DIRECTION_LEFT		
 						velocidad_x=-velocidad
 						movido=true
-#						print("-> "+str(scale.x))
-#						
-						if Input.is_action_just_pressed("ui_left") and derecha==true:
-							global_scale.x=-abs(global_scale.y)
-							print(global_scale.x)
-						
-						derecha=false
-			else:
-				if $AnimationPlayer.is_playing():
-					pass
-				else:
-					recibiendo=false
-					
-		if movido:		
-			move_and_slide(Vector2(velocidad_x,velocidad_y),Vector2(0,1))
-			var reverse=false
-			var factor=1
-
-# Ya no hacen falta: ya rota...
-#			if velocidad_x<0:
-#				reverse=true
-#				factor=-1
 			
-			$AnimationPlayer.play("walking",-1,factor*4,reverse)	
-		else:
-			if ($AnimationPlayer.current_animation=="muriendo" or $AnimationPlayer.current_animation=="pickup" or $AnimationPlayer.current_animation=="receiving" or $AnimationPlayer.current_animation=="slapping") and $AnimationPlayer.is_playing():
-				pass		
+			if movido:
+				move_and_slide(Vector2(velocidad_x,velocidad_y),Vector2(0,1))
+				var reverse=false
+				var factor=1
+				state=State.STATE_WALKING
+			
+				$AnimationPlayer.play("walking",-1,factor*4,reverse)	
 			else:
-				if $AnimationPlayer.is_playing() and $AnimationPlayer.current_animation=="idle":
-					pass
-				else:
-					$AnimationPlayer.play("idle")
-					$AnimationPlayer.advance(randf())
+				if state!=State.STATE_IDLE and action==Action.IDLE:
+					$AnimationPlayer.play("idle",-1,2)
+					$AnimationPlayer.advance(randf())	
+					state=State.STATE_IDLE			
 		
 	# Tamaño del sprite, según su distanica a alto y bajo_camino
 	#var distancia=lejos.position.y-position.y	
@@ -154,7 +140,7 @@ func _on_guantada_body_entered(body):
 	
 	# para que se defienda el robot:
 	if es_robot and not muriendo:
-		if rand_range(0,100)>90:
+		if rand_range(0,100)>70:
 			$AnimationPlayer.play("slapping",-1,4)
 
 func _zasca_on():
@@ -196,3 +182,12 @@ func _on_recogedor_area_entered(area):
 
 func _on_recogedor_area_exited(area):
 	peladilla=null
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	match anim_name:
+		"slapping", "receiving","pickup":
+			state=State.STATE_IDLE
+			$AnimationPlayer.play("idle",-1,2)
+			$AnimationPlayer.advance(randf())	
+	print("Finished!!! "+anim_name)

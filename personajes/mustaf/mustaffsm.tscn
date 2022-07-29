@@ -1,16 +1,16 @@
 [gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://personajes/patricia_old/patricia.gd" type="Script" id=1]
-[ext_resource path="res://personajes/mustaf/spritesheet-golpe-2-mustaf-unscreen.png" type="Texture" id=2]
-[ext_resource path="res://personajes/mustaf/spritesheet-recibir-1-mustaf-unscreen.png" type="Texture" id=3]
-[ext_resource path="res://personajes/mustaf/spritesheet-caminar-mustaf-unscreen2.png" type="Texture" id=4]
-[ext_resource path="res://personajes/mustaf/spritesheet-recibir-2-mustaf-unscreen.png" type="Texture" id=5]
-[ext_resource path="res://personajes/mustaf/spritesheet-coger-mustaf-unscreen.png" type="Texture" id=6]
-[ext_resource path="res://personajes/mustaf/spritesheet-idle-mustaf-unscreen.png" type="Texture" id=7]
-[ext_resource path="res://personajes/mustaf/spritesheet-caminar-mustaf-unscreen.png" type="Texture" id=8]
-[ext_resource path="res://personajes/mustaf/spritesheet-morir-mustaf-unscreen.png" type="Texture" id=9]
+[ext_resource path="res://personajes/mustaf/spritesheet-golpe-2-mustaf-unscreen.png" type="Texture" id=1]
+[ext_resource path="res://personajes/mustaf/spritesheet-caminar-mustaf-unscreen2.png" type="Texture" id=2]
+[ext_resource path="res://personajes/mustaf/spritesheet-coger-mustaf-unscreen.png" type="Texture" id=3]
+[ext_resource path="res://personajes/mustaf/spritesheet-recibir-2-mustaf-unscreen.png" type="Texture" id=4]
+[ext_resource path="res://personajes/mustaf/spritesheet-idle-mustaf-unscreen.png" type="Texture" id=5]
+[ext_resource path="res://personajes/mustaf/spritesheet-caminar-mustaf-unscreen.png" type="Texture" id=6]
+[ext_resource path="res://personajes/mustaf/spritesheet-morir-mustaf-unscreen.png" type="Texture" id=7]
+[ext_resource path="res://personajes/mustaf/spritesheet-recibir-1-mustaf-unscreen.png" type="Texture" id=8]
+[ext_resource path="res://personajes/mustaf/dormir.tscn" type="PackedScene" id=9]
 [ext_resource path="res://gui/vida.tscn" type="PackedScene" id=10]
-[ext_resource path="res://personajes/mustaf/dormir.tscn" type="PackedScene" id=11]
+[ext_resource path="res://personajes/mustaf/mustaffsm.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=9]
 length = 0.001
@@ -1104,50 +1104,50 @@ height = 118.0
 radius = 33.6155
 
 [node name="mustaf" type="KinematicBody2D" groups=["personaje"]]
-script = ExtResource( 1 )
+script = ExtResource( 11 )
 
 [node name="Spritesheet-recibir-2-mustaf-unscreen" type="Sprite" parent="."]
 position = Vector2( 9, -150 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 hframes = 10
 vframes = 7
 
 [node name="Spritesheet-caminar-mustaf-unscreen" type="Sprite" parent="."]
 visible = false
 position = Vector2( 135, -158 )
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 hframes = 10
 vframes = 5
 
 [node name="Spritesheet-caminar-mustaf-unscreen2" type="Sprite" parent="."]
 position = Vector2( -4, -145 )
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
 hframes = 10
 vframes = 5
 
 [node name="Spritesheet-idle-mustaf-unscreen" type="Sprite" parent="."]
 visible = false
 position = Vector2( 12, -144 )
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 hframes = 10
 vframes = 15
 
 [node name="Spritesheet-golpe-2-mustaf-unscreen" type="Sprite" parent="."]
 visible = false
 position = Vector2( 14, -146 )
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 hframes = 10
 vframes = 7
 
 [node name="Spritesheet-recibir-1-mustaf-unscreen" type="Sprite" parent="."]
 position = Vector2( 7, -151 )
-texture = ExtResource( 3 )
+texture = ExtResource( 8 )
 hframes = 10
 vframes = 8
 
 [node name="Spritesheet-coger-mustaf-unscreen" type="Sprite" parent="."]
 position = Vector2( 15, -139 )
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 hframes = 10
 vframes = 9
 
@@ -1186,7 +1186,7 @@ shape = SubResource( 13 )
 [node name="Spritesheet-morir-mustaf-unscreen" type="Sprite" parent="."]
 visible = false
 position = Vector2( 60, -154 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 hframes = 10
 vframes = 9
 
@@ -1194,7 +1194,7 @@ vframes = 9
 position = Vector2( 8, -345 )
 scale = Vector2( 0.3, 0.4 )
 
-[node name="dormir" parent="." instance=ExtResource( 11 )]
+[node name="dormir" parent="." instance=ExtResource( 9 )]
 visible = false
 position = Vector2( 80, -183 )
 
@@ -1207,6 +1207,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="guantada" to="." method="_on_guantada_area_entered"]
 [connection signal="area_exited" from="guantada" to="." method="_on_guantada_area_exited"]
 [connection signal="body_entered" from="guantada" to="." method="_on_guantada_body_entered"]
